@@ -1,10 +1,13 @@
-import java.util.Date;
-
 public class PEL extends CompteBancaire {
     private final double tauxInteret = 0.03;
 
-    @Override
-    public void retirer(double montant) {
-        throw new IllegalStateException("Impossible de retirer d'un PEL avant la date d'échéance.");
+    public double getTauxInteret() {  // Getter pour accéder au taux
+        return tauxInteret;
+    }
+
+    public void calculerInterets() {
+        double interets = solde * tauxInteret;
+        solde += interets;
+        System.out.println("Intérêts ajoutés : " + interets + " €. Nouveau solde : " + solde + " €");
     }
 }
