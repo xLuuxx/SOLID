@@ -3,7 +3,6 @@ import java.util.Scanner;
 public class MainIsp {
 
     public static void main(String[] args) {
-
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -15,7 +14,10 @@ public class MainIsp {
             System.out.print("Choix fonctionnalité : ");
 
             int fonction = lireEntier(scanner);
-            if (fonction == 0) break;
+            if (fonction == 0) {
+                System.out.println("Au revoir !");
+                break;
+            }
 
             System.out.println("\nChoisir la machine :");
             System.out.println("1. Imprimante simple");
@@ -24,29 +26,37 @@ public class MainIsp {
 
             int machineChoisie = lireEntier(scanner);
 
-            Machine machine;
-            if (machineChoisie == 2) {
-                machine = new ImprimanteMultifonction();
-            } else {
-                machine = new ImprimanteSimple();
-            }
-
             try {
-                executerFonction(machine, fonction);
+                executerFonction(machineChoisie, fonction);
             } catch (UnsupportedOperationException e) {
-                System.out.println("Fonctionnalité non supportée par cette machine");
+                System.out.println("⚠️ Fonctionnalité non supportée par cette machine");
             }
         }
 
         scanner.close();
     }
 
-    private static void executerFonction(Machine machine, int fonction) {
-        switch (fonction) {
-            case 1: machine.print(); break;
-            case 2: machine.scan(); break;
-            case 3: machine.fax(); break;
-            default: System.out.println("Fonction inconnue");
+    // Une seule méthode executerFonction (supprimer l'autre)
+    private static void executerFonction(int machineChoisie, int fonction) {
+        if (machineChoisie == 1) {
+            // Imprimante simple : seulement print()
+            ImprimanteSimple imprimanteSimple = new ImprimanteSimple();
+            if (fonction == 1) {
+                imprimanteSimple.print();
+            } else {
+                throw new UnsupportedOperationException();
+            }
+        } else if (machineChoisie == 2) {
+            // Imprimante multifonction : print(), scan(), fax()
+            ImprimanteMultifonction multifonction = new ImprimanteMultifonction();
+            switch (fonction) {
+                case 1: multifonction.print(); break;
+                case 2: multifonction.scan(); break;
+                case 3: multifonction.fax(); break;
+                default: System.out.println("Fonction inconnue");
+            }
+        } else {
+            System.out.println("Machine inconnue");
         }
     }
 
