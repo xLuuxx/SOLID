@@ -26,12 +26,28 @@ public class MainOCP {
             System.out.print("Montant HT : ");
             double montant = lireDouble(scanner);
 
-            double total = calculateur.calculerTotal(choix, montant);
-            System.out.println("Montant après remise : " + total);
-        }
+            Client client = creerClient(choix);
 
+            if (client != null) {
+                double total = calculateur.calculerTotal(client, montant);
+                System.out.println("Type client : " + client.getType());
+                System.out.println("Montant après remise : " + total);
+            } else {
+                System.out.println("Type client inconnu");
+            }
+        }
         scanner.close();
     }
+
+    private static Client creerClient(int choix) {
+        switch (choix) {
+            case 1: return new StandardClient();
+            case 2: return new StudentClient();
+            case 3: return new VIPClient();
+            default: return null;
+        }
+    }
+
 
     private static int lireEntier(Scanner scanner) {
         while (true) {
